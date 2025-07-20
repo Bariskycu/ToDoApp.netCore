@@ -1,0 +1,56 @@
+﻿@model List<ToDoAPP.Models.Todo>
+
+@{
+    ViewData["Title"] = "Todo Listesi";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+<div class="container py-5" style="max-width: 600px;">
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h2 class="card-title text-center mb-4">📝 Todo Listesi</h2>
+            <form asp-action="Add" method="post" class="d-flex gap-2 mb-3">
+                <input type="text" name="title" class="form-control" placeholder="Yeni görev girin" required />
+                <button type="submit" class="btn btn-primary">Ekle</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            @if (Model != null && Model.Count > 0)
+            {
+                <ul class="list-group">
+                    @foreach (var item in Model)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>
+                                @if (item.IsDone)
+                                {
+                                    <span class="text-success"><s>@item.Title</s> <span class="badge bg-success ms-2">Tamamlandı</span></span>
+                                }
+                                else
+                                {
+                                    <span>@item.Title <span class="badge bg-warning text-dark ms-2">Bekliyor</span></span>
+                                }
+                            </span>
+                            <span>
+                                @if (!item.IsDone)
+                                {
+                                    <a href="/Todo/Done/@item.Id" class="btn btn-sm btn-outline-success">Tamamla</a>
+                                }
+                            </span>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <div class="alert alert-info text-center mb-0">Henüz görev yok.</div>
+            }
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
